@@ -1,5 +1,10 @@
-up:
-	docker-compose -f ./srcs/docker-compose.yml up -d
+DOCKER_COMPOSE=./srcs/docker-compose.yml
+
+up: 
+	docker-compose -f $(DOCKER_COMPOSE) up -d --remove-orphans
 
 down:
-	docker-compose -f ./srcs/docker-compose.yml down
+	docker-compose -f $(DOCKER_COMPOSE) down
+
+build:
+	docker-compose -f $(DOCKER_COMPOSE) build

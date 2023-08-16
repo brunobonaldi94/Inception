@@ -53,17 +53,12 @@ RUN rm default
 
 RUN ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/
 
-
 RUN mkdir -p /run/php/
 RUN touch /run/php/php7.4-fpm.sock
 RUN chown www-data:www-data /run/php/php7.4-fpm.sock
 RUN chmod 0660 /run/php/php7.4-fpm.sock
 
 RUN nginx -t
-
-RUN service php7.4-fpm restart 
-
-RUN service mariadb restart
 
 RUN service nginx restart
 

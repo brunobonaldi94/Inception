@@ -1,10 +1,13 @@
 services:
-  nginx:
-    container_name: nginx
+
+  mariadb:
+    container_name: mariadb
+    build:
+      context: "./requirements/mariadb"
+      args:
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    restart: always
     env_file:
       - .env
-    build: "./requirements/nginx"
     ports:
-      - '443:433'
-    volumes:
-      - 'nginx:'
+      - '3306:3306'
