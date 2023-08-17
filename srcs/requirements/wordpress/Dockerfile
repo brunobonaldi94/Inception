@@ -17,24 +17,21 @@ RUN tar -xf latest.tar.gz
 
 WORKDIR  /var/www/html/wordpress
 
-RUN mv wp-config-sample.php wp-config.php
+RUN mv wp-config-sample.php wp-config.php && \
+    sed -i "s/database_name_here/${MYSQL_DATABASE}/g" wp-config.php && \
+    sed -i "s/username_here/${MYSQL_USER}/g" wp-config.php && \
+    sed -i "s/password_here/${MYSQL_PASSWORD}/g" wp-config.php && \
+    chown -R www-data:www-data /var/www/html/wordpress && \
+    chmod -R 755 /var/www/html/wordpress
 
-RUN sed -i 's/database_name_here/${MYSQL_DATABASE}/g' wp-config.php
+RUN rm -rf /run/php/
 
-RUN sed -i 's/username_here/${MYSQL_USER}/g' wp-config.php
+RUN mkdir -p /run/php/
 
-RUN sed -i 's/password_here/${MYSQL_PASSWORD}/g' wp-config.php
-
-RUN chown -R www-data:www-data /var/www/html/wordpress
-
-RUN chmod -R 755 /var/www/html/wordpress
-
-#RUN mkdir -p /run/php/ && \
-#    touch /run/php/php7.4-fpm.sock && \
-#    chown www-data:www-data /run/php/php7.4-fpm.sock && \
-#    chmod 0660 /run/php/php7.4-fpm.sock
+RUN touch /run/php/php7.4-fpm.sock && \
+    chown www-data:www-data /run/php/php7.4-fpm.sock && \
+    chmod 0660 /run/php/php7.4-fpm.sock
 
 EXPOSE 9000
 
-CMD ["php7.4-fpm"]
-
+CMD ["/usr/sbin/php-fpm7.4", "-F"]

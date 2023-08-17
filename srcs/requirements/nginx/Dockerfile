@@ -20,11 +20,10 @@ RUN rm default
 
 RUN ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/
 
-EXPOSE 443
+EXPOSE 80
 
 RUN nginx -t
 
 RUN service nginx restart
 
-CMD nginx -g "daemon off;"
-
+CMD ["nginx", "-g", "daemon off;"]
