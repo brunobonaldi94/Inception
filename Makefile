@@ -8,3 +8,7 @@ down:
 
 build:
 	docker-compose -f $(DOCKER_COMPOSE) build
+
+fclean:
+	docker container rm -f $(shell docker container ps -qa)
+	docker image rmi -f $(shell docker image ls -qa) 
