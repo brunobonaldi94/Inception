@@ -10,7 +10,7 @@ RUN openssl req -x509 -nodes -days 365 \
 
 WORKDIR /etc/nginx/sites-available/
 
-COPY ./conf/wordpress.conf .
+COPY ./conf/nginx.conf .
 
 RUN rm default
 
@@ -18,7 +18,7 @@ WORKDIR /etc/nginx/sites-enabled/
 
 RUN rm default
 
-RUN ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/
+RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
 
 EXPOSE 80
 

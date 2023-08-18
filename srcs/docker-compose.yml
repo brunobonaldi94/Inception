@@ -6,14 +6,12 @@ services:
       context: "./requirements/mariadb"
       args:
         - MYSQL_HOST=${MYSQL_HOST}
-        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-        - MYSQL_USER=${MYSQL_USER}
         - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     restart: always
     env_file:
       - .env
-    ports:
-      - '3306:3306'
     volumes:
       - mariadb:/var/lib/mysql
     networks:
@@ -24,19 +22,17 @@ services:
     build:
       context: "./requirements/wordpress"
       args:
-        - MYSQL_HOST=${MYSQL_HOST}
-        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-        - MYSQL_USER=${MYSQL_USER}
-        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+        - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
+        - WORDPRESS_DB_USER=${MYSQL_USER}
+        - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
     volumes:
-      - wordpress:/var/www/html:rw
+      - wordpress:/var/www/html
     depends_on:
       - mariadb
     restart: always
     env_file:
       - .env
-    ports:
-      - "9000:9000"
     networks:
       - inception
 
@@ -44,11 +40,6 @@ services:
     container_name: nginx
     build:
       context: "./requirements/nginx"
-      args:
-        - MYSQL_HOST=${MYSQL_HOST}
-        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-        - MYSQL_USER=${MYSQL_USER}
-        - MYSQL_DATABASE=${MYSQL_DATABASE}
     volumes:
       - wordpress:/var/www/html
     depends_on:

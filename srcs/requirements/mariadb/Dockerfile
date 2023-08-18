@@ -17,4 +17,4 @@ RUN service mariadb start && ./configure_database.sh
 
 EXPOSE 3306
 
-CMD ["mariadbd"]
+CMD ["mariadb"]
