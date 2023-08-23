@@ -2,6 +2,7 @@ services:
 
   mariadb:
     container_name: mariadb
+    image: mariadb
     build:
       context: "./requirements/mariadb"
       args:
@@ -19,43 +20,56 @@ services:
 
   wordpress:
     container_name: wordpress
+    image: wordpress
     build:
       context: "./requirements/wordpress"
       args:
         - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
-        - WORDPRESS_DB_NAME=${MYSQL_DATABASE}
-        - WORDPRESS_DB_USER=${MYSQL_USER}
-        - WORDPRESS_DB_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     volumes:
       - wordpress:/var/www/html
     depends_on:
       - mariadb
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     networks:
       - inception
 
-  nginx:
-    container_name: nginx
-    build:
-      context: "./requirements/nginx"
-    volumes:
-      - wordpress:/var/www/html
-    depends_on:
-      - wordpress
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - "8081:80" 
-    networks:
-      - inception
+#  nginx:
+#    container_name: nginx
+#    image: nginx
+#    build:
+#      context: "./requirements/nginx"
+#    volumes:
+#      - wordpress:/var/www/html
+#    depends_on:
+#      - wordpress
+#    restart: always
+#    env_file:
+#      - .env
+#    ports:
+#      - "443:433" 
+#    networks:
+#      - inception
 
 volumes:
-  mariadb:
   wordpress:
-
+    name: wordpress
+    driver: local
+    driver_opts:
+      device: ${VOLUME_DIR}/wordpress
+      o: bind
+      type: none
+  mariadb:
+    name: mariadb
+    driver: local
+    driver_opts:
+      device: ${VOLUME_DIR}/mariadb
+      o: bind
+      type: none
 networks:
     inception:
         driver: bridge
