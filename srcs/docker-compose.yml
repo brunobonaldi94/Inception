@@ -28,6 +28,11 @@ services:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_USER=${MYSQL_USER}
         - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - WORDPRESS_TITLE=${WORDPRESS_TITLE}
+        - WORDPRESS_URL=${WORDPRESS_URL}
+        - LOGIN=${LOGIN}
+        - WORDPRESS_EMAIL=${WORDPRESS_EMAIL}
+        - WORDPRESS_ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL}
     volumes:
       - wordpress:/var/www/html
     depends_on:
@@ -38,22 +43,22 @@ services:
     networks:
       - inception
 
-#  nginx:
-#    container_name: nginx
-#    image: nginx
-#    build:
-#      context: "./requirements/nginx"
-#    volumes:
-#      - wordpress:/var/www/html
-#    depends_on:
-#      - wordpress
-#    restart: always
-#    env_file:
-#      - .env
-#    ports:
-#      - "443:433" 
-#    networks:
-#      - inception
+  nginx:
+    container_name: nginx
+    image: nginx
+    build:
+      context: "./requirements/nginx"
+    volumes:
+      - wordpress:/var/www/html
+    depends_on:
+      - wordpress
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "441:433" 
+    networks:
+      - inception
 
 volumes:
   wordpress:

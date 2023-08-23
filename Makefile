@@ -4,13 +4,13 @@ SETUP=./srcs/requirements/tools/setup.sh
 PURGE=./srcs/requirements/tools/purge.sh
 
 up: setup
-	chmod +x $(SETUP)
-	sh $(SETUP)
 	docker-compose -f $(DOCKER_COMPOSE) up -d
 
 setup:
 	chmod +x $(LOGIN_SETUP)
-	sh $(LOGIN_SETUP)
+	bash $(LOGIN_SETUP)
+	chmod +x $(SETUP)
+	bash $(SETUP)
 
 down:
 	docker-compose -f $(DOCKER_COMPOSE) down
@@ -26,5 +26,5 @@ logs:
 
 fclean:
 	chmod +x $(PURGE)
-	sh $(PURGE)
+	bash $(PURGE)
 
