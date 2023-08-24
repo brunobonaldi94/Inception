@@ -2,7 +2,6 @@ services:
 
   mariadb:
     container_name: mariadb
-    image: mariadb
     build:
       context: "./requirements/mariadb"
       args:
@@ -10,6 +9,11 @@ services:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_USER=${MYSQL_USER}
         - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     restart: always
     env_file:
       - .env
@@ -20,7 +24,6 @@ services:
 
   wordpress:
     container_name: wordpress
-    image: wordpress
     build:
       context: "./requirements/wordpress"
       args:
@@ -33,6 +36,16 @@ services:
         - LOGIN=${LOGIN}
         - WORDPRESS_EMAIL=${WORDPRESS_EMAIL}
         - WORDPRESS_ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL}
+    environment:
+      - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - WORDPRESS_TITLE=${WORDPRESS_TITLE}
+      - WORDPRESS_URL=${WORDPRESS_URL}
+      - LOGIN=${LOGIN}
+      - WORDPRESS_EMAIL=${WORDPRESS_EMAIL}
+      - WORDPRESS_ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL}
     volumes:
       - wordpress:/var/www/html
     depends_on:
@@ -45,7 +58,6 @@ services:
 
   nginx:
     container_name: nginx
-    image: nginx
     build:
       context: "./requirements/nginx"
     volumes:
@@ -56,9 +68,13 @@ services:
     env_file:
       - .env
     ports:
-      - "441:433" 
+      - "443:433" 
     networks:
       - inception
+
+networks:
+    inception:
+        driver: bridge
 
 volumes:
   wordpress:
@@ -75,6 +91,4 @@ volumes:
       device: ${VOLUME_DIR}/mariadb
       o: bind
       type: none
-networks:
-    inception:
-        driver: bridge
+

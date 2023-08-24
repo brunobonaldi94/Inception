@@ -1,5 +1,4 @@
 #!/bin/bash
-
 ENV_FILE="$PWD"/srcs/.env
 LOGIN_FROM_ENV=$(grep "LOGIN=" $ENV_FILE | cut -d '=' -f2)
 VOLUME_DIR=/home/${LOGIN_FROM_ENV}/data

@@ -47,3 +47,4 @@ create_volumes_dir() {
 
 create_env_file
 create_volumes_dir
+grep $LOGIN_FROM_ENV.42.fr /etc/hosts || echo "127.0.0.1 $LOGIN_FROM_ENV.42.fr" | sudo tee --append /etc/hosts

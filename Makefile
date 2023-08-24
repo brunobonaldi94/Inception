@@ -4,7 +4,7 @@ SETUP=./srcs/requirements/tools/setup.sh
 PURGE=./srcs/requirements/tools/purge.sh
 
 up: setup
-	docker-compose -f $(DOCKER_COMPOSE) up -d
+	docker-compose -f $(DOCKER_COMPOSE) up -d --build
 
 setup:
 	chmod +x $(LOGIN_SETUP)
