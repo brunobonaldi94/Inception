@@ -36,11 +36,12 @@ create_env_file() {
 }
 
 create_volumes_dir() {
-	if [ -d "$VOLUME_DIR/wordpress" ] && [ -d "$VOLUME_DIR/mariadb" ]; then
+	if [ -d "$VOLUME_DIR/wordpress" ] && [ -d "$VOLUME_DIR/mariadb" ] && [ -d "$VOLUME_DIR/nginx" ]; then
 		echo "Folder $VOLUME_DIR already exists"
 	else
 		sudo mkdir -p $VOLUME_DIR/wordpress
 		sudo mkdir -p $VOLUME_DIR/mariadb 
+		sudo mkdir -p $VOLUME_DIR/nginx
 		echo "Folder $VOLUME_DIR created"
 	fi
 }

@@ -62,13 +62,14 @@ services:
       context: "./requirements/nginx"
     volumes:
       - wordpress:/var/www/html
+      - nginx:/etc/nginx/ssl
     depends_on:
       - wordpress
     restart: always
     env_file:
       - .env
     ports:
-      - "443:433" 
+      - "443:433"
     networks:
       - inception
 
@@ -89,6 +90,13 @@ volumes:
     driver: local
     driver_opts:
       device: ${VOLUME_DIR}/mariadb
+      o: bind
+      type: none
+  nginx:
+    name: nginx
+    driver: local
+    driver_opts:
+      device: ${VOLUME_DIR}/nginx
       o: bind
       type: none
 

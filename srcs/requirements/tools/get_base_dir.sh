@@ -1,4 +1,5 @@
 #!/bin/bash
+
 ENV_FILE="$PWD"/srcs/.env
 LOGIN_FROM_ENV=$(grep "LOGIN=" $ENV_FILE | cut -d '=' -f2)
 VOLUME_DIR=/home/${LOGIN_FROM_ENV}/data
@@ -15,7 +16,8 @@ check_existence_of_variable() {
 
 check_existence_of_variable "LOGIN" $ENV_FILE
 
-sudo echo "export LOGIN_FROM_ENV="$LOGIN_FROM_ENV"" >> ~/.bashrc
-sudo echo "export VOLUME_DIR="$VOLUME_DIR"" >> ~/.bashrc 
+grep 'export LOGIN_FROM_ENV' ~/.bashrc || sudo echo "export LOGIN_FROM_ENV="$LOGIN_FROM_ENV"" >> ~/.bashrc
+grep 'export VOLUME_DIR' ~/.bashrc || sudo echo "export VOLUME_DIR="$VOLUME_DIR"" >> ~/.bashrc 
 
-source ~/.bashrc 
+source ~/.bashrc
+ 

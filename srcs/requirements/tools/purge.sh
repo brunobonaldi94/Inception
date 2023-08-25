@@ -10,6 +10,6 @@ docker image rmi -f $(docker image ls -qa | grep -v ceccf204404e) 2> /dev/null
 docker volume rm -f $(docker volume ls -q) 2> /dev/null
 docker network rm $(docker network ls -q) 2> /dev/null
 sudo rm -rf $VOLUME_DIR 2> /dev/null
-sed -i "s|export LOGIN_FROM_ENV="$LOGIN_FROM_ENV"||g" ~/.bashrc
-sed -i "s|export VOLUME_DIR="$VOLUME_DIR"||g" ~/.bashrc
+sed -i '/export LOGIN_FROM_ENV=/d' ~/.bashrc
+sed -i '/export VOLUME_DIR=/d' ~/.bashrc
 echo $GREEN"clean done"$NC
