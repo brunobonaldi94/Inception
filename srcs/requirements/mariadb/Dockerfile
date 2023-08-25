@@ -5,7 +5,7 @@ ARG	MYSQL_DATABASE
 ARG	MYSQL_USER
 ARG MYSQL_PASSWORD
 
-RUN apt-get -y update
+RUN apt-get -y update && apt-get -y upgrade
 
 RUN apt-get install -y mariadb-server
 

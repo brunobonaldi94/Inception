@@ -11,7 +11,7 @@ RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
             -keyout /etc/nginx/ssl/nginx-selfsigned.key \
             -subj "/C=FR/L=Paris/O=42School/CN=bbonaldi.42.fr/"
 
-RUN     chmod 777 /etc/nginx/ssl/*
+RUN chmod 777 /etc/nginx/ssl/*
 
 COPY ./conf/nginx.conf /etc/nginx/conf.d
 

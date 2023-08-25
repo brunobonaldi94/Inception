@@ -6,12 +6,8 @@ PURGE=./srcs/requirements/tools/purge.sh
 up: setup
 	docker-compose -f $(DOCKER_COMPOSE) up -d --build
 
-export_variables:
-	chmod +x $(LOGIN_SETUP)
-	bash $(LOGIN_SETUP)
-	$(bash source ~/.bashrc)
 
-setup: export_variables
+setup:
 	chmod +x $(SETUP)
 	bash $(SETUP)
 

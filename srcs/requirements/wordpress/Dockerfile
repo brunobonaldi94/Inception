@@ -10,7 +10,7 @@ ARG LOGIN
 ARG WORDPRESS_EMAIL
 ARG WORDPRESS_ADMIN_EMAIL
 
-RUN apt update -y && apt upgrade -y
+RUN apt-get -y update && apt-get -y upgrade
 
 RUN apt install php-cli php-fpm php-mysql php-json php-opcache php-mbstring php-xml php-gd php-curl wget -y
 

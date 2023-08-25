@@ -7,6 +7,12 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RESET='\033[0m' # Reset color
 
+SCRIPT_DIR=$(dirname "$0")
+source $SCRIPT_DIR/get_base_dir.sh
+
+echo $LOGIN_FROM_ENV
+echo $VOLUME_DIR
+
 # Variables
 ENV_FILE="$PWD"/srcs/.env
 ENV_ARGS="WORDPRESS_DB_HOST MYSQL_HOST MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD LOGIN"
@@ -16,7 +22,7 @@ check_existence_of_variable() {
 	FILE="$2"
 	ARG_VALUE=$(grep "$1=" $2 | cut -d '=' -f2)
 	if [ -z "$ARG_VALUE" ]; then
-		echo "${RED}Please add $VAR_NAME in $2 file ${RESET}"
+		echo -e "${RED}Please add $VAR_NAME in $2 file ${RESET}"
 		exit 1
 	fi
 }
@@ -39,9 +45,9 @@ create_volumes_dir() {
 	if [ -d "$VOLUME_DIR/wordpress" ] && [ -d "$VOLUME_DIR/mariadb" ] && [ -d "$VOLUME_DIR/nginx" ]; then
 		echo "Folder $VOLUME_DIR already exists"
 	else
-		sudo mkdir -p $VOLUME_DIR/wordpress
-		sudo mkdir -p $VOLUME_DIR/mariadb 
-		sudo mkdir -p $VOLUME_DIR/nginx
+		sudo -E mkdir -p $VOLUME_DIR/wordpress
+		sudo -E mkdir -p $VOLUME_DIR/mariadb 
+		sudo -E mkdir -p $VOLUME_DIR/nginx
 		echo "Folder $VOLUME_DIR created"
 	fi
 }

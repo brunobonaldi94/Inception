@@ -16,8 +16,6 @@ check_existence_of_variable() {
 
 check_existence_of_variable "LOGIN" $ENV_FILE
 
-grep 'export LOGIN_FROM_ENV' ~/.bashrc || sudo echo "export LOGIN_FROM_ENV="$LOGIN_FROM_ENV"" >> ~/.bashrc
-grep 'export VOLUME_DIR' ~/.bashrc || sudo echo "export VOLUME_DIR="$VOLUME_DIR"" >> ~/.bashrc 
+export LOGIN_FROM_ENV="$LOGIN_FROM_ENV"
+export VOLUME_DIR="$VOLUME_DIR"
 
-source ~/.bashrc
- 
