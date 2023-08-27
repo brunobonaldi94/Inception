@@ -4,14 +4,10 @@ RUN apt-get -y update && apt-get -y upgrade
 
 RUN apt-get install nginx openssl -y
 
-RUN mkdir /etc/nginx/ssl
-
-RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-            -out /etc/nginx/ssl/nginx-selfsigned.crt \
-            -keyout /etc/nginx/ssl/nginx-selfsigned.key \
+RUN openssl req -batch -x509 -sha256 -nodes -newkey rsa:2048 -days 365 \
+            -out /etc/ssl/certs/nginx-selfsigned.crt \
+            -keyout /etc/ssl/private/nginx-selfsigned.key \
             -subj "/C=FR/L=Paris/O=42School/CN=bbonaldi.42.fr/"
-
-RUN chmod 777 /etc/nginx/ssl/*
 
 COPY ./conf/nginx.conf /etc/nginx/conf.d
 

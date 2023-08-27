@@ -9,7 +9,7 @@ check_existence_of_variable() {
 	FILE="$2"
 	ARG_VALUE=$(grep "$1=" $2 | cut -d '=' -f2)
 	if [ -z "$ARG_VALUE" ]; then
-		echo "${RED}Please add $VAR_NAME in $2 file ${RESET}"
+		echo -e "${RED}Please add $VAR_NAME in $2 file ${RESET}"
 		exit 1
 	fi
 }
