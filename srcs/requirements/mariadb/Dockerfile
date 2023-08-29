@@ -7,7 +7,7 @@ ARG MYSQL_PASSWORD
 
 RUN apt-get -y update && apt-get -y upgrade
 
-RUN apt-get install -y mariadb-server
+RUN apt-get install -y mariadb-server wget
 
 RUN mkdir -p /var/run/mysqld \
 && chown -R mysql:mysql /var/run/mysqld \
@@ -23,4 +23,4 @@ RUN service mariadb start && ./configure_database.sh
 
 EXPOSE 3306
 
-CMD ["mysqld_safe", "--bind-address=0.0.0.0"]
+CMD ["mysqld_safe"]

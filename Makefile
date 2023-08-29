@@ -1,5 +1,4 @@
 DOCKER_COMPOSE=./srcs/docker-compose.yml
-LOGIN_SETUP=./srcs/requirements/tools/get_base_dir.sh
 SETUP=./srcs/requirements/tools/setup.sh
 PURGE=./srcs/requirements/tools/purge.sh
 

@@ -8,6 +8,6 @@ wp core install  \
 	--admin_email=$WORDPRESS_ADMIN_EMAIL \
 	--skip-email --allow-root
 
-wp user create ${LOGIN} $WORDPRESS_EMAIL --user_pass=$MYSQL_PASSWORD --role=subscriber --porcelain --allow-root
+wp user create $LOGIN $WORDPRESS_EMAIL --user_pass=$MYSQL_PASSWORD --role=subscriber --porcelain --allow-root
 
 php-fpm -F

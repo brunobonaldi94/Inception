@@ -16,6 +16,9 @@ RUN apt install php-cli php-fpm php-mysql php-json php-opcache php-mbstring php-
 
 WORKDIR /var/www/html/
 
+RUN sed -i.default "/^listen\s=.*/c\listen = 0.0.0.0:9000" \
+    /etc/php/[0-9]*.[0-9]*/fpm/pool.d/www.conf
+
 RUN wget https://wordpress.org/latest.tar.gz
 
 RUN tar -xf latest.tar.gz && mv wordpress/* . && rm -rf latest.tar.gz
