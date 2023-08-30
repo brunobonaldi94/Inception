@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # Color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -14,21 +13,39 @@ echo $LOGIN_FROM_ENV
 echo $VOLUME_DIR
 
 # Variables
+LOGIN_TO_CHANGE="__LOGIN_TO_CHANGE__"
 ENV_FILE="$PWD"/srcs/.env
-ENV_ARGS="WORDPRESS_DB_HOST MYSQL_HOST MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD LOGIN"
+ENV_ARGS=$(cat << EOF 
+LOGIN VOLUME_DIR WORDPRESS_LOCAL_HOME WORDPRESS_UPLOADS_CONFIG 
+WORDPRESS_DB_HOST WORDPRESS_TITLE WORDPRESS_URL 
+WORDPRESS_EMAIL WORDPRESS_ADMIN_EMAIL MYSQL_HOST 
+MYSQL_DATABASE MYSQL_USER MYSQL_PASSWORD
+EOF
+)
+
+get_arg_value() {
+	VALUE=$(grep "$1=" $2 | cut -d '=' -f2)
+	echo $VALUE
+}
+
+replace_login_dummy () {
+	FILE="$1"
+	sed -i "/$LOGIN_TO_CHANGE/$LOGIN_FROM_ENV/g" $FILE
+}
 
 check_existence_of_variable() {
 	VAR_NAME="$1"
 	FILE="$2"
-	ARG_VALUE=$(grep "$1=" $2 | cut -d '=' -f2)
+	ARG_VALUE=$(get_arg_value $VAR_NAME $FILE)
 	if [ -z "$ARG_VALUE" ]; then
 		echo -e "${RED}Please add $VAR_NAME in $2 file ${RESET}"
-		exit 1
+		exit 1 
 	fi
 }
 
 create_env_file() {
 	if [ -f $ENV_FILE ]; then
+		replace_login_dummy $ENV_FILE
 		for VAR in $ENV_ARGS; do
 			check_existence_of_variable $VAR $ENV_FILE
 		done
@@ -52,6 +69,14 @@ create_volumes_dir() {
 	fi
 }
 
+replace_login_nginx_conf() {
+	NGINX_CONF="$PWD"/srcs/requirements/nginx/conf/nginx.conf
+	replace_login_dummy $NGINX_CONF
+}
+
 create_env_file
 create_volumes_dir
+replace_login_nginx_conf
 grep $LOGIN_FROM_ENV.42.fr /etc/hosts || echo "127.0.0.1 $LOGIN_FROM_ENV.42.fr" | sudo tee --append /etc/hosts
+
+

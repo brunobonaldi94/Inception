@@ -60,16 +60,17 @@ services:
     container_name: nginx
     build:
       context: "./requirements/nginx"
+      args:
+        - LOGIN=${LOGIN}    
     volumes:
       - wordpress:/var/www/html
-      - nginx:/etc/nginx/ssl
     depends_on:
       - wordpress
     restart: always
     env_file:
       - .env
     ports:
-      - "443:433"
+      - "443:443"
     networks:
       - inception
 
