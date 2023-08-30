@@ -13,7 +13,6 @@ echo $LOGIN_FROM_ENV
 echo $VOLUME_DIR
 
 # Variables
-LOGIN_TO_CHANGE="__LOGIN_TO_CHANGE__"
 ENV_FILE="$PWD"/srcs/.env
 ENV_ARGS=$(cat << EOF 
 LOGIN VOLUME_DIR WORDPRESS_LOCAL_HOME WORDPRESS_UPLOADS_CONFIG 
@@ -30,7 +29,7 @@ get_arg_value() {
 
 replace_login_dummy () {
 	FILE="$1"
-	sed -i "/$LOGIN_TO_CHANGE/$LOGIN_FROM_ENV/g" $FILE
+	sed -i "s|$LOGIN_TO_CHANGE|$LOGIN_FROM_ENV|g" $FILE
 }
 
 check_existence_of_variable() {
