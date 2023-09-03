@@ -29,23 +29,13 @@ services:
         - LOGIN=${LOGIN}
         - WORDPRESS_EMAIL=${WORDPRESS_EMAIL}
         - WORDPRESS_ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL}
-    environment:
-      - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - WORDPRESS_TITLE=${WORDPRESS_TITLE}
-      - WORDPRESS_URL=${WORDPRESS_URL}
-      - LOGIN=${LOGIN}
-      - WORDPRESS_EMAIL=${WORDPRESS_EMAIL}
-      - WORDPRESS_ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL}
+    env_file:
+      - .env
     volumes:
       - wordpress:/var/www/html
     depends_on:
       - mariadb
     restart: unless-stopped
-    env_file:
-      - .env
     networks:
       - inception
 
@@ -60,8 +50,6 @@ services:
     depends_on:
       - wordpress
     restart: always
-    env_file:
-      - .env
     ports:
       - "443:443"
     networks:
@@ -84,13 +72,6 @@ volumes:
     driver: local
     driver_opts:
       device: ${VOLUME_DIR}/mariadb
-      o: bind
-      type: none
-  nginx:
-    name: nginx
-    driver: local
-    driver_opts:
-      device: ${VOLUME_DIR}/nginx
       o: bind
       type: none
 
