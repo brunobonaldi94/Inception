@@ -15,10 +15,6 @@ COPY ./conf/nginx.conf /etc/nginx/conf.d
 
 RUN mkdir -p /run/nginx
 
-COPY ./tools/start.sh .
-
-RUN chmod +x start.sh 
-
 EXPOSE 443
 
-CMD ["./start.sh"]
+CMD ["nginx", "-g", "daemon off;"]

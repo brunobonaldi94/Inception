@@ -1,9 +1,9 @@
-DOCKER_COMPOSE=./srcs/docker-compose.yml
+DOCKER_COMPOSE=docker-compose -f ./srcs/docker-compose.yml
 SETUP=./srcs/requirements/tools/setup.sh
 PURGE=./srcs/requirements/tools/purge.sh
 
 up: setup
-	docker-compose -f $(DOCKER_COMPOSE) up -d --build
+	$(DOCKER_COMPOSE) up -d --build
 
 
 setup:
@@ -11,16 +11,19 @@ setup:
 	bash $(SETUP)
 
 down:
-	docker-compose -f $(DOCKER_COMPOSE) down
+	$(DOCKER_COMPOSE) down
 
 build:
-	docker-compose -f $(DOCKER_COMPOSE) build
+	$(DOCKER_COMPOSE) build
 
 ps:
-	docker-compose -f $(DOCKER_COMPOSE) ps 
+	$(DOCKER_COMPOSE) ps 
 
 logs:
-	docker-compose -f $(DOCKER_COMPOSE) logs
+	$(DOCKER_COMPOSE) logs
+
+exec:
+	$(DOCKER_COMPOSE) exec $(filter-out $@,$(MAKECMDGOALS)) /bin/sh
 
 fclean:
 	chmod +x $(PURGE)
